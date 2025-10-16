@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Otplogin() {
   const [mobile, setMobile] = useState("");
@@ -7,6 +8,9 @@ export default function Otplogin() {
   const [loading, setLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
   const navigate = useNavigate();
+
+  const formatPhone = (phone) =>
+    phone.startsWith("+") ? phone.trim() : "+268" + phone.trim();
 
   useEffect(() => {
     let interval;
@@ -16,29 +20,42 @@ export default function Otplogin() {
     return () => clearInterval(interval);
   }, [resendTimer]);
 
-  const sendOtp = () => {
+  const sendOtp = async () => {
     if (!mobile) return setError("Please enter a mobile number");
-    if (!/^\d{8}$/.test(mobile))
+    const phone = formatPhone(mobile);
+    if (!/^\+268\d{8}$/.test(phone))
       return setError("Mobile number must be 8 digits");
     setError("");
     setLoading(true);
 
-    setTimeout(() => {
+    try {
+      const { data } = await axios.post(
+  "http://localhost:8000/api/sms/send-otp",
+  { phone },
+  { withCredentials: true }
+);
+
       setLoading(false);
-      const generatedOtp = "123456"; // fixed OTP for demo
-      localStorage.setItem("demoOtp", generatedOtp);
-      navigate("/otp/verify", { state: { mobile } });
-      setResendTimer(60);
-    }, 1000);
+
+      if (data.success) {
+        setResendTimer(60);
+        navigate("/otp/verify", { state: { mobile: phone } });
+        console.log("OTP sent to:", phone);
+      } else {
+        setError(data.error || "Failed to send OTP");
+      }
+    } catch (err) {
+      console.error("Send OTP Error:", err);
+      setLoading(false);
+      setError("Error sending OTP");
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-150px)] text-center px-4 sm:px-6 md:px-12 lg:px-24">
-      <div className="data-form w-full max-w-full sm:max-w-md">
-        <h4 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl">LOGIN</h4>
-        <p className="text-sm sm:text-base md:text-lg lg:text-lg mb-2">
-          Please enter your Mobile number
-        </p>
+    <div className="flex flex-col items-center justify-center h-screen text-center px-4 sm:px-6 md:px-12 lg:px-24">
+      <div className="data-form w-full max-w-md">
+        <h4>LOGIN</h4>
+        <p>Please enter your Mobile number</p>
         <input
           type="text"
           placeholder="Mobile number"
@@ -49,21 +66,16 @@ export default function Otplogin() {
           }}
           maxLength={8}
           autoComplete="off"
-          className="w-full mt-2 px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded text-sm sm:text-base md:text-lg"
+          className="w-full"
         />
-        {error && <p className="text-red-600 mt-2 text-sm sm:text-base">{error}</p>}
+        {error && <p className="text-red-600">{error}</p>}
         <button
-          className="primary w-full mt-4 py-2 sm:py-3 text-sm sm:text-base md:text-lg"
+          className="primary w-full"
           onClick={sendOtp}
           disabled={loading}
         >
           {loading ? "Sending OTP..." : "Generate OTP"}
         </button>
-        {resendTimer > 0 && (
-          <p className="text-sm sm:text-base mt-2 text-gray-500">
-            Resend OTP in {resendTimer}s
-          </p>
-        )}
       </div>
     </div>
   );

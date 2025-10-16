@@ -19,6 +19,7 @@ import AddQuizPage from "./admin/AddQuizPage";
 import QuizListPage from "./admin/QuizListPage";
 import Product from './pages/Product';
 import LeaderboardTable from './pages/Leaderboard';
+import { AuthProvider } from './auth/AuthContext';
 
 function Layout() {
   const location = useLocation();
@@ -65,7 +66,9 @@ function Layout() {
 export default function App() {
   return (
     <BrowserRouter>
-      <Layout />
+      <AuthProvider>
+        <Layout />
+      </AuthProvider>
     </BrowserRouter>
   );
 }
