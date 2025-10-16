@@ -32,7 +32,7 @@ function PurchasePlan() {
       {/* ✅ Header sabse upar */}
       <Header />
 
-      <div className="sec-2 flex-grow flex flex-col justify-start items-center pb-4 md:block md:justify-start md:items-start border-2 border-green-700">
+      <div className="sec-2 flex-grow flex flex-col justify-start items-center pb-4 md:block md:justify-start md:items-start ">
         <div className="container">
           <div className="row Products-option flex justify-content-center items-center">
             {/* --- Daily Plan --- */}

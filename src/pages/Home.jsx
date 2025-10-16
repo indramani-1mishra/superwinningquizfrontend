@@ -1,14 +1,25 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function Home() {
   const navigate = useNavigate();
 
+    const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkWidth = () => setIsMobile(window.innerWidth < 730);
+
+    checkWidth(); // run initially
+    window.addEventListener("resize", checkWidth);
+
+    return () => window.removeEventListener("resize", checkWidth);
+  }, []);
   const handleLoginClick = () => {
     navigate("/otp/login"); // Navigate to OTP login
   };
- const ismobile =window.innerWidth<730;
+ 
   return (
-    <div className={`${ismobile?"flex flex-col items-center text-white px-4  text-center  relative top-[140px] h-[100vh]":"flex flex-col items-center justify-center  min-h-100vh text-center text-white opacity-75 px-4"}`}>
+    <div className={`${isMobile?"flex flex-col items-center text-white px-4  text-center  relative top-[140px] h-[100vh]":"flex flex-col items-center justify-center  h-[100vh] text-center text-white opacity-75 px-4"}`}>
       {/* min-h-[calc(100vh-64px)] ensures it fills screen minus header height (64px) */}
 
       <div className="space-y-4 "> {/* vertical spacing between texts */}
