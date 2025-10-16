@@ -8,7 +8,7 @@ function Home() {
   };
  const ismobile =window.innerWidth<730;
   return (
-    <div className={`${ismobile?"flex flex-col items-center text-white px-4  text-center  relative top-[240px] h-[100vh]":"flex flex-col items-center justify-center  min-h-[calc(100vh-150px)] text-center text-white opacity-75 px-4"}`}>
+    <div className={`${ismobile?"flex flex-col items-center text-white px-4  text-center  relative top-[140px] h-[100vh]":"flex flex-col items-center justify-center  min-h-100vh text-center text-white opacity-75 px-4"}`}>
       {/* min-h-[calc(100vh-64px)] ensures it fills screen minus header height (64px) */}
 
       <div className="space-y-4 "> {/* vertical spacing between texts */}
