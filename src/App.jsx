@@ -18,7 +18,7 @@ import DashboardPage from "./admin/DashboardPage";
 import AddQuizPage from "./admin/AddQuizPage";
 import QuizListPage from "./admin/QuizListPage";
 import Product from './pages/Product';
-import Leaderboard from './pages/LeaderBoard';
+import LeaderboardTable from './pages/Leaderboard';
 
 function Layout() {
   const location = useLocation();
@@ -44,7 +44,7 @@ function Layout() {
           <Route path="/register" element={<Register />} />
           <Route path="/purchase/plan" element={<PurchasePlan />} />
           <Route path="/product" element={<Product />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/leaderboard" element={<LeaderboardTable />} />
 
           {/* Admin Login */}
           <Route path="/admin/login" element={<AdminLoginPage />} />
