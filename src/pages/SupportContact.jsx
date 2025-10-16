@@ -2,13 +2,13 @@ import React from "react";
 
 export default function SupportContact() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-700 via-black to-indigo-800 px-5 sm:px-8 md:px-12 lg:px-20 py-16 md:py-24 overflow-hidden">
+    <section className="relative  flex flex-col items-center justify-center bg-gradient-to-br from-purple-700 via-black to-indigo-800 px-3 sm:px-8 md:px-12 lg:px-20 py-16 md:py-24 overflow-hidden  ">
       {/* Soft Overlay */}
       <div className="absolute inset-0 bg-black/60"></div>
 
       {/* Glow Effects */}
-      <div className="absolute top-[-8rem] left-[-6rem] w-[25rem] sm:w-[30rem] md:w-[35rem] h-[25rem] sm:h-[30rem] md:h-[35rem] bg-purple-700/30 blur-[160px] rounded-full"></div>
-      <div className="absolute bottom-[-8rem] right-[-6rem] w-[28rem] sm:w-[35rem] md:w-[40rem] h-[28rem] sm:h-[35rem] md:h-[40rem] bg-pink-600/30 blur-[180px] rounded-full"></div>
+      <div className="absolute top-[-8rem] left-[-6rem] w-[22rem] sm:w-[30rem] md:w-[35rem] h-[22rem] sm:h-[30rem] md:h-[35rem] bg-purple-700/30 blur-[160px] rounded-full"></div>
+      <div className="absolute bottom-[-8rem] right-[-6rem] w-[25rem] sm:w-[35rem] md:w-[40rem] h-[25rem] sm:h-[35rem] md:h-[40rem] bg-pink-600/30 blur-[180px] rounded-full"></div>
 
       {/* Heading */}
       <div className="relative text-center z-10 mb-8 sm:mb-12 px-2">
@@ -22,7 +22,7 @@ export default function SupportContact() {
       </div>
 
       {/* Contact Form */}
-      <div className="relative z-10 w-full max-w-md sm:max-w-lg md:max-w-2xl bg-gray-900/70 backdrop-blur-md rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl border border-gray-800">
+      <div className="relative z-10 w-[95%] sm:w-[90%] md:w-[80%] lg:max-w-2xl bg-gray-900/70 backdrop-blur-md rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl border border-gray-800">
         <form className="space-y-5 sm:space-y-6 p-3">
           {/* Name */}
           <div>

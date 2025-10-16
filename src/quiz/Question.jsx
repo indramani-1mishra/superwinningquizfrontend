@@ -3,14 +3,13 @@ import { useNavigate } from "react-router-dom";
 
 function Question() {
   const navigate = useNavigate();
-
   const [questions, setQuestions] = useState([]);
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [timer, setTimer] = useState(15);
   const [loading, setLoading] = useState(true);
   const [score, setScore] = useState(0);
-
+const isMobile = window.innerWidth < 640;
   useEffect(() => {
     const allQuestions = [
       { text: "South Africa is also known as the?", options: ["Rainbow Nation", "Land of Rising Sun", "Emerald Isle", "Great White North"], correctIndex: 0 },
@@ -36,7 +35,7 @@ function Question() {
       setTimer((t) => {
         if (t <= 1) {
           clearInterval(interval);
-          nextQuestion(false); // Time over, no score increment
+          nextQuestion(false);
           return 0;
         }
         return t - 1;
@@ -49,10 +48,8 @@ function Question() {
   const handleAnswer = (opt, i) => {
     if (selected !== null) return;
     setSelected(i);
-
     const correctAnswerIndex = questions[index].correctIndex;
     if (i === correctAnswerIndex) setScore((s) => s + 1);
-
     setTimeout(() => nextQuestion(false), 800);
   };
 
@@ -63,7 +60,6 @@ function Question() {
     }
 
     const nextIndex = index + 1;
-
     if (nextIndex > 0 && nextIndex % 5 === 0) {
       navigate("/purchase/plan");
       return;
@@ -77,57 +73,67 @@ function Question() {
     }
   };
 
-  if (loading) return <p style={{ color: "white" }}>Loading quiz...</p>;
-  if (questions.length === 0) return <p style={{ color: "red" }}>❌ No quiz available</p>;
+  if (loading) return <p className="text-white">Loading quiz...</p>;
+  if (questions.length === 0) return <p className="text-red-500">❌ No quiz available</p>;
 
   const q = questions[index];
 
   return (
-    <div className="question-box relative pt-0 sm:px-6 md:px-8 lg:px-12 py-6 pb-32 min-h-[calc(100vh-80px)] overflow-x-hidden overflow-y-auto">
-      {/* Score */}
-      <div className="sm:hidden w-full flex justify-center mb-2">
-        <div className="inline-block px-4 py-2 text-center">
-          <p className="font-bold">Score: {score}</p>
-        </div>
+    <div className={`question-box relative  ${isMobile ? " relative top-[-80px]" : " relative top-[-50px]"
+              }`} >
+      {/* SCORE */}
+      <div className="w-full flex justify-center mb-2 sm:hidden relative top-6">
+        <p className="font-bold text-right font-semibold relative top-[53px] w-full ">Score: {score}</p>
       </div>
 
-      <div className="hidden sm:flex fixed top-4 right-4 flex-col items-center justify-center text-white text-[30px] px-4 py-2 max-w-max z-50 text-center">
-        <p className="font-semibold">Score: {score}</p>
+      <div className="hidden sm:flex fixed top-4 right-4 flex-col items-center justify-center text-white text-[60px] px-4 py-2 z-50 text-center">
+        <p className="font-semibold border-4 border-green-800 relative top-[140px] shadow-[0px_0px_5px_5px_white] rounded-md p-2">Score: {score}</p>
       </div>
 
-      {/* Quiz */}
-      <div className="wrap max-w-full mb-32 md:max-w-3xl mx-auto relative">
+      {/* QUIZ BOX */}
+      <div className="wrap max-w-full mb-2 md:max-w-3xl  relative">
         <div className="count mb-4 text-center">
           <span style={{ color: timer <= 5 ? "red" : "white" }}>{timer}</span>
         </div>
 
-        <div className="border mb-4">
-          <div className="question gradient-border">
+        <div className="border mb-4 sm:mb-2">
+          <div className={`${
+              isMobile ? "question gradient-border" : "question gradient-border"
+              }`}>
             <div>{index + 1}. {q.text}</div>
           </div>
         </div>
 
-        <ul>
+        <ul className={` ${
+              isMobile ? "" : "flex flex-wrap justify-center gap-6  p-4  top-[200px]"
+              }`}>
           {q.options.map((opt, i) => {
             const correctIndex = q.correctIndex;
-            let bgColor = "#170324"; // default
+            let bgColor = "#170324";
             if (selected !== null) {
-              if (i === correctIndex) bgColor = "green";       // correct answer
-              else if (i === selected) bgColor = "red";        // wrong selection
+              if (i === correctIndex) bgColor = "green";
+              else if (i === selected) bgColor = "red";
             }
             return (
-              <li key={i} className="mb-0 sm:mb-2">
+              <li
+                key={i}
+                className={` ${
+              isMobile ? "mb-1 sm:mb-2 w-full sm:w-auto relative sm:left-0 left-[-15px]" : "w-[42%]  text-white text-center p-2 rounded"
+              }`}
+              >
                 <label
                   onClick={() => handleAnswer(opt, i)}
                   style={{
                     background: bgColor,
                     color: "white",
-                    borderRadius: "9999px",
+                    borderRadius: window.innerWidth < 640 ? "10px" : "999px",
                     padding: "10px 14px",
+                    width: window.innerWidth < 640 ? "100%" : "auto",
                     cursor: selected !== null ? "not-allowed" : "pointer",
                     border: "2px solid rgba(255,255,255,0.2)",
+                    boxShadow: window.innerWidth < 640 ? "0px 0px 2px 2px white" : "none",
                     transition: "all 0.3s ease-in-out",
-                    opacity: selected !== null && i !== selected && i !== correctIndex ? 0.6 : 1
+                    opacity: selected !== null && i !== selected && i !== correctIndex ? 0.6 : 1,
                   }}
                 >
                   {opt}
@@ -140,7 +146,7 @@ function Question() {
         <button
           type="button"
           onClick={() => nextQuestion(true)}
-          className="glow-on-hover mt-4 mb-2 px-6 py-3 w-[90%] mx-auto sm:w-auto"
+          className="glow-on-hover mt-4 mb-2 px-6 py-3 w-[90%] sm:w-auto mx-auto"
         >
           {index + 1 === questions.length ? "FINISH" : "NEXT"}
         </button>

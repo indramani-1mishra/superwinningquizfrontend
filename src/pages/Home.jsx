@@ -6,12 +6,12 @@ function Home() {
   const handleLoginClick = () => {
     navigate("/otp/login"); // Navigate to OTP login
   };
-
+ const ismobile =window.innerWidth<730;
   return (
-    <div className="flex flex-col items-center justify-center  min-h-[calc(100vh-150px)] text-center text-white opacity-75 px-4">
+    <div className={`${ismobile?"flex flex-col items-center text-white px-4  text-center  relative top-[240px] h-[100vh]":"flex flex-col items-center justify-center  min-h-[calc(100vh-150px)] text-center text-white opacity-75 px-4"}`}>
       {/* min-h-[calc(100vh-64px)] ensures it fills screen minus header height (64px) */}
 
-      <div className="space-y-4"> {/* vertical spacing between texts */}
+      <div className="space-y-4 "> {/* vertical spacing between texts */}
         <h3 className="text-4xl md:text-xl lg:text-6xl">
           <span>EXPLORE & WIN</span>
         </h3>
